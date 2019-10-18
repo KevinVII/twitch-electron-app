@@ -1,4 +1,6 @@
 const electron = require('electron');
+const Twitch = require('./newTwitchApi')
+
 
 const { app, BrowserWindow, ipcMain } = electron;
 
@@ -13,22 +15,42 @@ function createWindow (){
     }
   });
   win.loadFile('index.html');
+  win.webContents.openDevTools()
 
   win.on('closed', () => {
     win = null;
   })
 }
 
-ipcMain.on('clientID', function(e, clientID){
-  const userClientID = clientID;
-  console.log(clientID);
-  win.loadFile('api.html');
+
+ipcMain.on('clientID', async function(e, clientID){
+  clientID;
+  paramWindow(clientID);
 });
 
-ipcMain.on('params', function(e, formData){
-  const data = formData;
-  console.log(data);
-});
+async function paramWindow (clientID){
+  var options = {
+    clientId: clientID,
+    clientSecret: '',
+    redirectUri: 'http://localhost',
+    scopes: []
+  }
+
+  var ttv = new Twitch(options);
+
+  win.loadFile('api.html');
+
+  var para = '';
+
+  ipcMain.on('params', function(e, formData){
+
+    var testApi = ttv.getUser({ login: formData });
+
+    testApi.then((result) => {
+      console.log('hello ' + JSON.parse(result));
+    })
+  });
+}
 
 app.on('ready', createWindow)
 

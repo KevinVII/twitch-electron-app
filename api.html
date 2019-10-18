@@ -95,8 +95,8 @@
 
       function submitForm(e){
         e.preventDefault();
-        const formData = document.querySelector('form').value;
-        ipcRenderer.send('params', formData.elements.value.value);
+        const data = document.querySelectorAll('.form-control');
+        ipcRenderer.send('params', data[0].value);
       }
     </script>
 </body>
