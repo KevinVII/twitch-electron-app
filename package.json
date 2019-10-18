@@ -1,0 +1,18 @@
+{
+  "name": "twitch-electron-app",
+  "version": "1.0.0",
+  "description": "Electron App that interacts with the Twitch API",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "twitch",
+    "api"
+  ],
+  "author": "KevinVII",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^6.0.12"
+  }
+}

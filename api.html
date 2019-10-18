@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <section id="api-selector">
+        <div class="container">
+            <h1 class="text-center" style="color: rgb(255,255,255);padding-top: 60px;">Select an API Endpoint</h1>
+        </div>
+    </section>
+    <section id="Params">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div style="margin: auto;width: 100%;padding-top: 10px;">
+                        <ul class="nav nav-pills" style="margin: auto;width: 902px;border-bottom: 2px;border-bottom-color: white;">
+                            <li class="nav-item"><a class="nav-link active" role="tab" data-toggle="pill" id="GetTopGames" href="#tab-1">Get Games</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="pill" id="GetGames" href="#tab-2">Get Top Games</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="pill" id="GetStreams" href="#tab-3">Get Streams</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="pill" id="GetVideos" href="#tab-3">Get Videos</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="pill" id="GetUser" href="#tab-3">Get User</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="pill" id="GetUserFollows" href="#tab-3">Get User Follows</a></li>
+                            <li class="nav-item"><a class="nav-link" role="tab" data-toggle="pill" href="#tab-3">Get Stream Metadata</a></li>
+                        </ul>
+                        <div class="tab-content" style="margin: auto;">
+                            <div class="tab-pane active" role="tabpanel" id="tab-1">
+                                <h3 class="text-center" style="margin: auto;color: rgb(255,255,255);padding-top: 10px;padding-bottom: 15px;">Enter API Parameters</h3>
+                                <form>
+                                    <section>
+                                        <div class="form-row" style="width: 80%;margin: auto;padding-top: 18px;">
+                                            <div class="col">
+                                                <h5 style="color: rgb(255,255,255);">Game Id</h5><input class="form-control" type="text" placeholder="Choose only one to submit" name="getGames_gameID"><small class="form-text text-muted">At most 100 id values can be specified</small></div>
+                                            <div
+                                                class="col">
+                                                <h5 style="color: rgb(255,255,255);">Game name</h5><input class="form-control" type="text" placeholder="Choose only one to submit" name="getGames_gameName"><small class="form-text text-muted">Game name must be exact match. At most 100 name values can be specified<br><br></small></div>
+                            </div>
+                            <div class="form-row" style="margin: auto;padding-top: 16px;">
+                                <div class="col">
+                                    <form style="padding-top: 6px;"><button class="btn btn-primary btn-block" type="submit" style="margin: auto;width: 266px;padding: 6px 12px;">Submit</button></form>
+                                </div>
+                            </div>
+                            </section>
+                            </form>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="tab-2">
+                            <h3 class="text-center" style="margin: auto;color: rgb(255,255,255);padding-top: 10px;padding-bottom: 15px;">Enter API Parameters</h3>
+                            <section>
+                                <div class="row" style="width: 80%;margin: auto;padding-top: 18px;">
+                                    <div class="col">
+                                        <form>
+                                            <h5 style="color: rgb(255,255,255);">First</h5><input class="form-control" type="number" min="0" max="100" placeholder="Optional" name="getTopGames_first"><small class="form-text text-muted">Number of objects to return. <br>Max 100, Default 20.</small></form>
+                                    </div>
+                                    <div class="col">
+                                        <form>
+                                            <h5 style="color: rgb(255,255,255);">Before</h5><input class="form-control" type="text" placeholder="Optional" name="getTopGames_before"><small class="form-text text-muted">Cursor for forward pagination</small></form>
+                                    </div>
+                                    <div class="col">
+                                        <form>
+                                            <h5 style="color: rgb(255,255,255);">After</h5><input class="form-control" type="text" placeholder="Optional" name="getTopGames_after"><small class="form-text text-muted">Cursor for backward pagination</small></form>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: auto;padding-top: 16px;">
+                                    <div class="col">
+                                        <form style="padding-top: 6px;"><button class="btn btn-primary btn-block" type="submit" style="margin: auto;width: 266px;">Submit</button></form>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="tab-pane" role="tabpanel" id="tab-3">
+                            <p>Content for tab 3.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
+
+      const form = document.querySelector('form');
+      form.addEventListener('submit', submitForm);
+
+      function submitForm(e){
+        e.preventDefault();
+        const formData = document.querySelector('form').value;
+        ipcRenderer.send('params', formData.elements.value.value);
+      }
+    </script>
+</body>
+
+</html>
