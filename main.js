@@ -11,6 +11,9 @@ var options = {
   scopes: []
 }
 
+var ttv;
+
+
 app.on('ready', function() {
   mainWindow = new BrowserWindow({
     width: 1280,
@@ -33,18 +36,31 @@ app.on('ready', function() {
 
 ipcMain.on('clientID', function(e, clientID){
   options.clientId = clientID;
-  var ttv = new Twitch(options);
   paramWindow();
 });
 
+// Drones ID: 29605116
 function paramWindow(){
+  // load parameter page
   mainWindow.loadFile('untitled.html');
 
+  ttv = new Twitch(options)
+
   ipcMain.on('streamerName', function(e, streamerName){
-    streamer = streamerName;
-    console.log(streamer)
+
+
+    var testApi = ttv.getUser({ login: streamerName })
+    testApi.then((streamerId) => {
+      var clips = ttv.getClips({broadcaster_id: streamerId })
+      clips.then((result) => {
+        console.log(result);
+      })
+    });
+
   });
+
 }
+
 
 function addWindow () {
   // Create the browser window.

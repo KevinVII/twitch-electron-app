@@ -35,7 +35,6 @@ Twitch.prototype.getAuth = async function (params){
   }
 };
 
-
 Twitch.prototype.getClips = async function (params){
   try {
     const res = await axios({
@@ -58,6 +57,35 @@ Twitch.prototype.getClips = async function (params){
       })
     } else {
       return (res.data);
+    }
+
+  } catch (err) {
+    console.error(err.response);
+  }
+};
+
+Twitch.prototype.getUser = async function (params){
+  try {
+    const res = await axios({
+      url: '/users',
+      params: params,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Client-ID': this.clientId,
+      },
+      json: true
+    });
+
+    // Check for response, if no response print error message;
+    if(!res.data){
+      console.error({
+        error: 'Bad Request',
+        status: 404,
+        message: 'Double check your parameters'
+      })
+    } else {
+      return (res.data.data[0].id);
     }
 
   } catch (err) {
