@@ -41,14 +41,17 @@ ipcMain.on('clientID', function(e, clientID){
 
 // Drones ID: 29605116
 function paramWindow(){
+
   // load parameter page
   mainWindow.loadFile('untitled.html');
 
   ttv = new Twitch(options)
 
+  // Waits for form submit with parameters
   ipcMain.on('streamerName', function(e, streamerName){
 
-
+    // Takes in Streamer's name and returns an array of objects
+    // with clip information
     var testApi = ttv.getUser({ login: streamerName })
     testApi.then((streamerId) => {
       var clips = ttv.getClips({broadcaster_id: streamerId })
