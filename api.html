@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Untitled</title>
+    <title>twitchapp</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -83,22 +83,8 @@
         </div>
         </div>
     </section>
-    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script>
-      const electron = require('electron');
-      const { ipcRenderer } = electron;
-
-      const form = document.querySelector('form');
-      form.addEventListener('submit', submitForm);
-
-      function submitForm(e){
-        e.preventDefault();
-        const data = document.querySelectorAll('.form-control');
-        ipcRenderer.send('params', data[0].value);
-      }
-    </script>
 </body>
 
 </html>

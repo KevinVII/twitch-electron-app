@@ -1,21 +1,28 @@
 {
   "name": "twitch-electron-app",
   "version": "1.0.0",
-  "description": "Electron App that interacts with the Twitch API",
+  "description": "Twitch App created with Electron.js, React.js, and Express.js",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinVII/twitch-electron-app.git"
+  },
   "keywords": [
-    "twitch",
-    "api"
+    "twitch"
   ],
   "author": "KevinVII",
   "license": "MIT",
-  "devDependencies": {
-    "electron": "^6.0.12"
+  "bugs": {
+    "url": "https://github.com/KevinVII/twitch-electron-app/issues"
   },
+  "homepage": "https://github.com/KevinVII/twitch-electron-app#readme",
   "dependencies": {
     "axios": "^0.19.0"
+  },
+  "devDependencies": {
+    "electron": "^6.0.12"
   }
 }
