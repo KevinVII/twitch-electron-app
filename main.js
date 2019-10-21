@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, webContents } = require('electron')
 const axios = require('axios')
 const Twitch = require('./api/newTwitchApi')
 
@@ -43,27 +43,29 @@ ipcMain.on('clientID', function(e, clientID){
 function paramWindow(){
 
   // load parameter page
-  mainWindow.loadFile('untitled.html');
+  mainWindow.loadFile('parameters.html');
 
   ttv = new Twitch(options)
 
   // Waits for form submit with parameters
-  ipcMain.on('streamerName', function(e, streamerName){
+  ipcMain.on('streamerName', async function(e, streamerName){
 
-    // Takes in Streamer's name and returns an array of objects
-    // with clip information
-    var testApi = ttv.getUser({ login: streamerName })
-    testApi.then((streamerId) => {
-      var clips = ttv.getClips({broadcaster_id: streamerId })
-      clips.then((result) => {
-        console.log(result);
-      })
-    });
-
+    // Takes in Streamer's display name and returns an array of objects
+    // with clip information.
+    var testApi = await ttv.getUser({ login: streamerName });
+    var clips = await ttv.getClips({broadcaster_id: testApi });
+    mainWindow.loadFile('display.html')
+    displayClips(clips);
   });
 
 }
 
+// Sends all clip information to be displayed on the clips page
+function displayClips(clips){
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('allClips', clips);
+  })
+}
 
 function addWindow () {
   // Create the browser window.
