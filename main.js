@@ -54,7 +54,7 @@ function paramWindow(){
     // with clip information.
     var testApi = await ttv.getUser({ login: streamerName });
     var clips = await ttv.getClips({broadcaster_id: testApi });
-    mainWindow.loadFile('display.html')
+    mainWindow.loadFile('clips.html')
     displayClips(clips);
   });
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>twitchapp</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <section>
+        <h1 class="text-center text-white" style="padding-top: 35px;">Clips</h1>
+    </section>
+    <section>
+        <div id='clip-display' class="container grid-clips">
+        </div>
+    </section>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
+      const cont = document.querySelector('#clip-display');
+
+
+      ipcRenderer.on('allClips', function (e, clips){
+        for (i = 0; i<clips.data.length;i++){
+
+          var clipFrame = document.createElement('div')
+          clipFrame.setAttribute('class','div-clip');
+          var download = document.createElement('a');
+          download.setAttribute('class', 'btn btn-primary btn-block')
+          download.setAttribute('role', 'button')
+          download.setAttribute('target', '_blank')
+          download.setAttribute('text', 'Download')
+          var iframe = document.createElement('iframe');
+          iframe.src = clips.data[i].embed_url + '&autoplay=false'
+          iframe.height = "250"
+          iframe.autoplay = false
+          iframe.frameborder= "0"
+          iframe.scrolling= "no"
+
+          clipFrame.appendChild(iframe)
+          clipFrame.appendChild(download)
+          cont.appendChild(clipFrame)
+        }
+      });
+    </script>
+</body>
+
+</html>
