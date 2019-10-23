@@ -24,18 +24,18 @@
       const electron = require('electron');
       const { ipcRenderer } = electron;
       const cont = document.querySelector('#clip-display');
+      const axios = require('axios');
+      const fs = require('fs');
 
 
       ipcRenderer.on('allClips', function (e, clips){
         for (i = 0; i<clips.data.length;i++){
 
+          var clip = clips.data[i]
+          console.log(clip)
           var clipFrame = document.createElement('div')
           clipFrame.setAttribute('class','div-clip');
-          var download = document.createElement('a');
-          download.setAttribute('class', 'btn btn-primary btn-block')
-          download.setAttribute('role', 'button')
-          download.setAttribute('target', '_blank')
-          download.setAttribute('text', 'Download')
+
           var iframe = document.createElement('iframe');
           iframe.src = clips.data[i].embed_url + '&autoplay=false'
           iframe.height = "250"
@@ -43,11 +43,29 @@
           iframe.frameborder= "0"
           iframe.scrolling= "no"
 
+          var download = document.createElement('a');
+          download.setAttribute('class', 'btn btn-primary btn-block')
+          download.setAttribute('role', 'button')
+          download.innerHTML = 'Download';
+          download.onclick = (async function() {
+            var clipThumb = clip.thumbnail_url;
+            var clipFile = clipThumb.replace("-preview-480x272.jpg", ".mp4");
+            console.log(clipFile)
+
+            var resp = await axios({url: clipFile, method: 'GET', responseType: 'stream'});
+            await resp.data.pipe(fs.createWriteStream('Clip.mp4'));
+
+          });
+
           clipFrame.appendChild(iframe)
           clipFrame.appendChild(download)
           cont.appendChild(clipFrame)
         }
       });
+
+      function downloader(){
+
+      }
     </script>
 </body>
 

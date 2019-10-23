@@ -16,14 +16,14 @@ body {
 }
 
 .div-clip {
-  width: 30%;
+  width: 304px;
   height: 250px;
-  padding: 10px;
 }
 
 .container.grid-clips {
   display: grid;
-  grid-gap: 40px;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 50px;
+  grid-row-gap: 50px;
+  grid-template-columns: repeat(auto-fit, 304px);
   grid-template-rows: repeat(auto-fit, 250px);
 }
