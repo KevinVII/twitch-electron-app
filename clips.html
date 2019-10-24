@@ -32,7 +32,10 @@
         for (i = 0; i<clips.data.length;i++){
 
           var clip = clips.data[i]
-          console.log(clip)
+          var clipThumb = clip.thumbnail_url;
+          var clipFile = clipThumb.replace("-preview-480x272.jpg", "");
+          var clipFile = clipFile.replace("https://clips-media-assets2.twitch.tv/", "");
+
           var clipFrame = document.createElement('div')
           clipFrame.setAttribute('class','div-clip');
 
@@ -47,15 +50,8 @@
           download.setAttribute('class', 'btn btn-primary btn-block')
           download.setAttribute('role', 'button')
           download.innerHTML = 'Download';
-          download.onclick = (async function() {
-            var clipThumb = clip.thumbnail_url;
-            var clipFile = clipThumb.replace("-preview-480x272.jpg", ".mp4");
-            console.log(clipFile)
-
-            var resp = await axios({url: clipFile, method: 'GET', responseType: 'stream'});
-            await resp.data.pipe(fs.createWriteStream('Clip.mp4'));
-
-          });
+          download.setAttribute('value', clipFile);
+          download.setAttribute('onclick', "downloader(this.getAttribute('value'))");
 
           clipFrame.appendChild(iframe)
           clipFrame.appendChild(download)
@@ -63,7 +59,10 @@
         }
       });
 
-      function downloader(){
+      async function downloader(clip) {
+        clip = 'https://clips-media-assets2.twitch.tv/' + clip + '.mp4'
+        var resp = await axios({url: clip, method: 'GET', responseType: 'stream'});
+        await resp.data.pipe(fs.createWriteStream('Clips.mp4'));
 
       }
     </script>
