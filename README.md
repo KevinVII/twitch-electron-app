@@ -1,2 +1,1 @@
-# twitch-electron-app
- 
+# Clip Downloader
