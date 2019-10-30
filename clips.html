@@ -32,9 +32,12 @@
         for (i = 0; i<clips.data.length;i++){
 
           var clip = clips.data[i]
+          console.log(clip)
           var clipThumb = clip.thumbnail_url;
+          var clipID = clip.id;
           var clipFile = clipThumb.replace("-preview-480x272.jpg", "");
           var clipFile = clipFile.replace("https://clips-media-assets2.twitch.tv/", "");
+          var clipFile = clipID + ',' + clipFile;
 
           var clipFrame = document.createElement('div')
           clipFrame.setAttribute('class','div-clip');
@@ -60,9 +63,11 @@
       });
 
       async function downloader(clip) {
-        clip = 'https://clips-media-assets2.twitch.tv/' + clip + '.mp4'
-        var resp = await axios({url: clip, method: 'GET', responseType: 'stream'});
-        await resp.data.pipe(fs.createWriteStream('Clips.mp4'));
+        var clip = clip.split(',');
+        var title = clip[0] + '.mp4';
+        clipLink = 'https://clips-media-assets2.twitch.tv/' + clip[1] + '.mp4'
+        var resp = await axios({url: clipLink, method: 'GET', responseType: 'stream'});
+        await resp.data.pipe(fs.createWriteStream(title));
 
       }
     </script>
